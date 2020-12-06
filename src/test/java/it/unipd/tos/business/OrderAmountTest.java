@@ -17,6 +17,16 @@ public class OrderAmountTest {
 
     private final OrderAmount calculator = new OrderAmount();
 
+    @Test(expected = TakeAwayBillException.class)
+    public void più30Elementi() throws TakeAwayBillException
+    {
+        MenuItem item = new MenuItem(MenuItem.Item.GELATI, "Limone", 5.0D);
+        Stream<MenuItem> gelati = Stream.generate(() -> item);
+        List<MenuItem> items = gelati.limit(31).collect(Collectors.toList());
+
+        double res = calculator.getOrderPrice(items,new User("Panighel", "Cristiano", LocalDate.of(1999,10,06)));
+    }
+
     @Test
     public void getOrderPriceBaseList_Test() throws TakeAwayBillException
     {
