@@ -18,6 +18,30 @@ public class OrderAmount implements TakeAwayBill{
         {
             res += item.getPrice();
         }
+        if(SeiGelati(items)) {
+            res -= (gelatoMenoCostoso(items) / 2);
+        }
         return res;
+    }
+
+    boolean SeiGelati(List<MenuItem> items) {
+        int c = 0;
+        for(MenuItem item : items) {
+            if(item.getItemType() == MenuItem.Item.GELATI) {
+                c++;
+            }
+        }
+        return c >= 6;
+    }
+
+    double gelatoMenoCostoso(List<MenuItem> items)
+    {
+        double prezzo = Double.MAX_VALUE;
+        for(MenuItem item : items) {
+            if(prezzo > item.getPrice() && item.getItemType() == MenuItem.Item.GELATI) {
+                prezzo = item.getPrice();
+            }
+        }
+        return prezzo;
     }
 }
