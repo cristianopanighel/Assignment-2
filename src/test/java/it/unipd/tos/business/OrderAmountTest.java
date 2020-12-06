@@ -45,6 +45,21 @@ public class OrderAmountTest {
     }
 
     @Test
+    public void getOrderPriceBaseList10PerCento_Test() throws TakeAwayBillException
+    {
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Banana Split", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Banana Split", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "BiancaNeve", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "BiancaNeve", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "BiancaNeve", 10.0D));
+
+        double result = calculator.getOrderPrice(items, new User("Panighel", "Cristino", LocalDate.of(1999,10,06)));
+        assertEquals(54.0D, result, 0D);
+    }
+
+    @Test
     public void SeiGelati_Test()
     {
         MenuItem item = new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 5.0D);
@@ -65,5 +80,37 @@ public class OrderAmountTest {
         items.add(new MenuItem(MenuItem.Item.GELATI, "Limone", 8.0D));
 
         assertEquals(4.0D, calculator.gelatoMenoCostoso(items), 0);
+    }
+
+    @Test
+    public void gelatiBudiniSconto_Test()
+    {
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 5.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Fragola", 4.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Banana Split", 8.5D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Limone", 8.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Biancaneve", 9.5D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Pinguino", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Vanilla", 9.0D));
+
+        assertTrue(calculator.gelatiBudiniSconto(items));
+        assertFalse(calculator.gelatiBudiniSconto(items.subList(0,6)));
+
+        List<MenuItem> ordine = new ArrayList<>();
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 5.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Fragola", 4.0D));
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Banana Split", 8.5D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Biancaneve", 9.5D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Pinguino", 10.0D));
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Vanilla", 9.0D));
+        items.add(new MenuItem(MenuItem.Item.BEVANDE, "Coca Cola", 8.0D));
+
+        assertFalse(calculator.gelatiBudiniSconto(ordine));
+
+        List<MenuItem> order = new ArrayList<>();
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 50.0D));
+        items.add(new MenuItem(MenuItem.Item.BEVANDE, "Fanta", 1.0D));
+        assertFalse(calculator.gelatiBudiniSconto(order));
     }
 }

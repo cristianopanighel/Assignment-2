@@ -21,6 +21,10 @@ public class OrderAmount implements TakeAwayBill{
         if(SeiGelati(items)) {
             res -= (gelatoMenoCostoso(items) / 2);
         }
+        if(gelatiBudiniSconto(items)) {
+            double sconto10 = res / 10;
+            res -= sconto10;
+        }
         return res;
     }
 
@@ -43,5 +47,16 @@ public class OrderAmount implements TakeAwayBill{
             }
         }
         return prezzo;
+    }
+
+    boolean gelatiBudiniSconto(List<MenuItem> items) {
+        double price = 0;
+        for(MenuItem item : items) {
+            if(item.getItemType() == MenuItem.Item.GELATI ||
+                    item.getItemType() == MenuItem.Item.BUDINI) {
+                price += item.getPrice();
+            }
+        }
+        return price > 50;
     }
 }
