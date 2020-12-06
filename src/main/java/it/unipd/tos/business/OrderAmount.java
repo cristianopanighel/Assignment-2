@@ -13,6 +13,9 @@ public class OrderAmount implements TakeAwayBill{
     @Override
     public double getOrderPrice(List<MenuItem> items, User utente) throws TakeAwayBillException
     {
+        if(items.size()>30) {
+            throw new TakeAwayBillException("L'ordine ha più di 30 elementi");
+        }
         double res = 0;
         for(MenuItem item : items)
         {
