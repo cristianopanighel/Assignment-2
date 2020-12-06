@@ -70,6 +70,20 @@ public class OrderAmountTest {
     }
 
     @Test
+    public void getOrderPriceBaseListCommissione_Test() throws TakeAwayBillException
+    {
+        List<MenuItem> items = new ArrayList<>();
+        items.add(new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 5.0D));
+
+        assertEquals(5.5D, calculator.getOrderPrice(items,new User("Panighel", "Cristino", LocalDate.of(1999,10,06))), 0);
+
+        items.add(new MenuItem(MenuItem.Item.BUDINI, "Biancaneve", 4.0D));
+        items.add(new MenuItem(MenuItem.Item.BEVANDE, "Acqua", 1.5D));
+
+        assertEquals(10.5D, calculator.getOrderPrice(items, new User("Panighel", "Cristino", LocalDate.of(1999,10,06))), 0);
+    }
+
+    @Test
     public void SeiGelati_Test()
     {
         MenuItem item = new MenuItem(MenuItem.Item.GELATI, "Coppa Nafta", 5.0D);

@@ -28,6 +28,9 @@ public class OrderAmount implements TakeAwayBill{
             double sconto10 = res / 10;
             res -= sconto10;
         }
+        if(res<10) {
+            res+=0.50;
+        }
         return res;
     }
 
