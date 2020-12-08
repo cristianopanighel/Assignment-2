@@ -7,11 +7,18 @@ import it.unipd.tos.business.exception.TakeAwayBillException;
 import it.unipd.tos.model.MenuItem;
 import it.unipd.tos.model.User;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderAmount implements TakeAwayBill{
+    private List<User> users = new ArrayList<>();
+
     @Override
-    public double getOrderPrice(List<MenuItem> items, User utente) throws TakeAwayBillException
+    public double getOrderPrice(List<MenuItem> items, User utente, LocalTime time)
+            throws TakeAwayBillException
     {
         if(items.size()>30) {
             throw new TakeAwayBillException("L'ordine ha più di 30 elementi");
@@ -30,6 +37,16 @@ public class OrderAmount implements TakeAwayBill{
         }
         if(res<10) {
             res+=0.50;
+        }
+        if(users.size() >= 10 || time.getHour()!=18) {
+            return res;
+        }
+
+        if(isMinorenne(utente) && Math.random() < 0.5D) { //50% di chance se utente minorenne
+            if(!users.contains(utente)) {
+                users.add(utente);
+                return 0;
+            }
         }
         return res;
     }
@@ -64,5 +81,10 @@ public class OrderAmount implements TakeAwayBill{
             }
         }
         return price > 50;
+    }
+
+    boolean isMinorenne(User user) {
+        long result = ChronoUnit.YEARS.between(user.getDob(), LocalDate.now());
+        return result < 18;
     }
 }
