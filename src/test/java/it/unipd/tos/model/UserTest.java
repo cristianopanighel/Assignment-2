@@ -25,5 +25,6 @@ public class UserTest {
 
         assertTrue(utente.equals(utente));
         assertFalse(utente.equals(user));
+        assertFalse(utente.equals(null));
     }
 }
