@@ -4,7 +4,9 @@
 <module name="Checker">
     <module name="TreeWalker">
         <module name="BooleanExpressionComplexity"/>
-        <module name="CyclomaticComplexity"/>
+        <module name="CyclomaticComplexity">
+            <property name="max" value="11"/>
+        </module>
         <module name="MethodLength"/>
         <module name="EmptyCatchBlock">
             <property name="exceptionVariableName" value="expected|ignore"/>

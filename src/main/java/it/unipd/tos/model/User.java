@@ -4,6 +4,7 @@
 package it.unipd.tos.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class User {
 
@@ -26,5 +27,24 @@ public class User {
 
     public LocalDate getDob() { 
         return data;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if(this == obj) {
+            return true;
+        }
+        if(obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        User user = (User) obj;
+        return cognome.equals(user.cognome) && nome.equals(user.nome) && data.equals(user.data);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(cognome, nome, data);
     }
 }
